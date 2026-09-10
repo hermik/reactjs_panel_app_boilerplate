@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { apiClient } from '../../api/apiClient'
 import { setAccessToken } from '../../api/tokenStore'
+import { setAuthNotice } from '../../api/authNotice'
 import { useUserStore } from '../../stores/userStore'
 
 /**
@@ -14,6 +15,7 @@ export function useLogoutMutation() {
         onSettled: () => {
             setAccessToken(null)
             useUserStore.getState().actions.logout()
+            setAuthNotice('Zostałeś wylogowany.')
         },
     })
 }

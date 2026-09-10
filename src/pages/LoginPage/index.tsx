@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { useLoginMutation } from './useLoginMutation'
 import { loginSchema } from './loginSchema'
+import { consumeAuthNotice } from '../../api/authNotice'
 
 type FieldErrors = {
     email?: string
@@ -12,6 +13,7 @@ export default function LoginPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState<FieldErrors>({})
+    const [notice] = useState(consumeAuthNotice)
     const loginMutation = useLoginMutation()
 
     const handleLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -31,6 +33,7 @@ export default function LoginPage() {
     return (
         <div>
             <h1>Login Page</h1>
+            {notice && <p>{notice}</p>}
             <form>
                 <div>
                     <label htmlFor="email">Email:</label>
