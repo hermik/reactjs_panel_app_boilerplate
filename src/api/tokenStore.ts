@@ -5,10 +5,25 @@
  */
 let accessToken: string | null = null
 
+const SESSION_HINT_KEY = 'hasSession'
+
 export function getAccessToken(): string | null {
     return accessToken
 }
 
 export function setAccessToken(token: string | null): void {
     accessToken = token
+
+    // Czysta podpowiedź w localStorage, NIE źródło prawdy o autoryzacji —
+    // refresh-cookie jest httpOnly, więc JS inaczej nie wie, czy warto w ogóle
+    // pytać /v1/auth/refresh przy starcie appki (patrz AuthInitializer).
+    if (token) {
+        localStorage.setItem(SESSION_HINT_KEY, '1')
+    } else {
+        localStorage.removeItem(SESSION_HINT_KEY)
+    }
+}
+
+export function hasSessionHint(): boolean {
+    return localStorage.getItem(SESSION_HINT_KEY) === '1'
 }

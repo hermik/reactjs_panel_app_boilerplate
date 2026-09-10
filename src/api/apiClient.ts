@@ -49,7 +49,7 @@ let refreshPromise: Promise<string> | null = null
 
 /** Woła backend po nowy access token, korzystając z httpOnly refresh-cookie. */
 async function refreshAccessToken(): Promise<string> {
-    const response = await fetch(`${API_BASE_URL}/auth/refresh`, {
+    const response = await fetch(`${API_BASE_URL}/v1/auth/refresh`, {
         method: 'POST',
         credentials: 'include', // wysyła httpOnly cookie z refresh tokenem
     })
@@ -74,6 +74,25 @@ function getOrCreateRefreshPromise(): Promise<string> {
         })
     }
     return refreshPromise
+}
+
+/**
+ * Bootstrap sesji przy starcie appki: F5 zeruje tokenStore i userStore (żyją
+ * tylko w JS), ale httpOnly refresh-cookie przeżywa reload. Bez tego wywołania
+ * RequireAuth widziałby isLogged=false zanim cokolwiek zdążyłoby się odświeżyć
+ * i przekierowywałby na /login mimo wciąż ważnej sesji po stronie serwera.
+ * Reużywa `getOrCreateRefreshPromise`, więc dzieli tę samą deduplikację co
+ * reaktywny refresh w apiClient().
+ */
+export async function restoreSession(): Promise<boolean> {
+    try {
+        const token = await getOrCreateRefreshPromise()
+        setAccessToken(token)
+        useUserStore.getState().actions.login()
+        return true
+    } catch {
+        return false
+    }
 }
 
 /**

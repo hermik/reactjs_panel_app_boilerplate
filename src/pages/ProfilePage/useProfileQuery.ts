@@ -6,10 +6,10 @@ export interface Profile {
     email: string
 }
 
-/** GET /api/profile — przez apiClient, więc auto-refresh na 401 działa bez dodatkowego kodu tutaj. */
+/** GET /v1/users/me — przez apiClient, więc auto-refresh na 401 działa bez dodatkowego kodu tutaj. */
 export function useProfileQuery() {
     return useQuery({
         queryKey: ['profile'],
-        queryFn: () => apiRequest<Profile>('/api/profile'),
+        queryFn: () => apiRequest<Profile>('/v1/users/me'),
     })
 }
