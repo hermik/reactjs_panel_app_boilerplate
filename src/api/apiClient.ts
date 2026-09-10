@@ -96,13 +96,16 @@ export async function restoreSession(): Promise<boolean> {
 }
 
 /**
- * Nagłówki requestu: Content-Type zawsze, Authorization tylko gdy mamy token
- * i request go potrzebuje (patrz `skipAuth` w apiClient). `extra` na końcu,
- * żeby wywołujący mógł nadpisać dowolny z tych nagłówków przez `options.headers`.
+ * Nagłówki requestu: Content-Type tylko gdy faktycznie wysyłamy body (Fastify
+ * krzyczy FST_ERR_CTP_EMPTY_JSON_BODY, gdy Content-Type: application/json
+ * dostanie pusty body — np. POST bez body jak /v1/auth/logout), Authorization
+ * tylko gdy mamy token i request go potrzebuje (patrz `skipAuth` w apiClient).
+ * `extra` na końcu, żeby wywołujący mógł nadpisać dowolny z tych nagłówków
+ * przez `options.headers`.
  */
-function buildHeaders(accessToken: string | null, extra?: HeadersInit): HeadersInit {
+function buildHeaders(accessToken: string | null, hasBody: boolean, extra?: HeadersInit): HeadersInit {
     return {
-        'Content-Type': 'application/json',
+        ...(hasBody ? { 'Content-Type': 'application/json' } : {}),
         ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
         ...extra,
     }
@@ -126,10 +129,11 @@ function buildHeaders(accessToken: string | null, extra?: HeadersInit): HeadersI
 export async function apiClient(path: string, options: ApiOptions = {}): Promise<Response> {
     const { skipAuth, headers, ...rest } = options
     const accessToken = getAccessToken()
+    const hasBody = rest.body !== undefined
 
     const response = await fetch(`${API_BASE_URL}${path}`, {
         ...rest,
-        headers: buildHeaders(skipAuth ? null : accessToken, headers),
+        headers: buildHeaders(skipAuth ? null : accessToken, hasBody, headers),
         credentials: 'include',
     })
 
@@ -151,7 +155,7 @@ export async function apiClient(path: string, options: ApiOptions = {}): Promise
         // odpowiedź dalej, żeby uniknąć nieskończonej pętli refresh->401->refresh.
         return await fetch(`${API_BASE_URL}${path}`, {
             ...rest,
-            headers: buildHeaders(newAccessToken, headers),
+            headers: buildHeaders(newAccessToken, hasBody, headers),
             credentials: 'include',
         })
     } catch (error) {
