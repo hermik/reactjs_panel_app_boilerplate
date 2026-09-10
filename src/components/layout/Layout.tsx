@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import SidebarToggle from './SidebarToggle'
+import DarkModeToggle from './DarkModeToggle'
 import Sidebar from './Sidebar'
 import NavBar from './NavBar';
 import LogoutButton from './LogoutButton';
@@ -13,6 +14,7 @@ export default function Layout() {
                     <NavBar />
                 </div>
                 <div>
+                    <DarkModeToggle />
                     <SidebarToggle />
                     <LogoutButton />
                 </div>
