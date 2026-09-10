@@ -1,7 +1,7 @@
-import { useUserStore } from '../stores/userStore'
+import { useUserStore } from '../../stores/userStore'
 import { useState } from 'react'
 export default function LoginPage() {
-    const login = useUserStore((state) => state.login)
+    const login = useUserStore((state) => state.actions.login)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 

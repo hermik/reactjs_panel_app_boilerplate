@@ -1,8 +1,8 @@
-import { useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
-import Results from './Results'
+import Results from '../../components/Results'
+import { useSearchQuery } from './useSearchQuery'
 
-export default function Search() {
+export default function SearchPage() {
     const [query, setQuery] = useState('')
     const [debouncedQuery, setDebouncedQuery] = useState('')
 
@@ -19,17 +19,7 @@ export default function Search() {
         return () => clearTimeout(timer)
     }, [query])
 
-    const { data, isLoading, error } = useQuery({
-        queryKey: ['search', debouncedQuery],
-        queryFn: async ({ signal }) => {
-            const response = await fetch(
-                `http://localhost:3000/v1/test/delay/500?query=${encodeURIComponent(debouncedQuery)}`,
-                { signal }
-            )
-            return response.json()
-        },
-        enabled: !!debouncedQuery.trim(),
-    })
+    const { data, isLoading, error } = useSearchQuery(debouncedQuery)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(e.target.value)
@@ -37,6 +27,7 @@ export default function Search() {
 
     return (
         <div>
+            <h1>Search Page</h1>
             <input type="text" placeholder="Search..." value={query} onChange={handleChange} />
             {isLoading && <p>Loading...</p>}
             {error && <p>Error: {error.message}</p>}
