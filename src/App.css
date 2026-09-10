@@ -1,9 +1,16 @@
 h1 {
 }
 header.main {
-  background-color: #f8f8f8;
+  background-color: var(--accent-bg);
   padding: 20px;
   border-bottom: 1px solid #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo, .logo a {
+  color: var(--text-color);
+  text-decoration: none;
 }
 header.main nav ul {
   list-style: none;
@@ -13,6 +20,10 @@ header.main nav ul {
 header.main nav ul li {
   display: inline-block;
   margin-right: 10px;
+}
+header.main nav ul li a {
+  text-decoration: none;
+  color: var(--accent);
 }
 section.content {
   position: relative;
