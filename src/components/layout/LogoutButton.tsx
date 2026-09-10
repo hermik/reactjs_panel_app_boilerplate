@@ -1,13 +1,11 @@
-import { useUserStore } from '../../stores/userStore'
-import { setAccessToken } from '../../api/tokenStore'
+import { useLogoutMutation } from './useLogoutMutation'
 
 export default function LogoutButton() {
-    const logout = useUserStore((state) => state.actions.logout)
+    const logoutMutation = useLogoutMutation()
 
-    const handleLogout = () => {
-        setAccessToken(null)
-        logout()
-    }
-
-    return <button onClick={handleLogout}>Logout</button>
+    return (
+        <button onClick={() => logoutMutation.mutate()} disabled={logoutMutation.isPending}>
+            {logoutMutation.isPending ? 'Wylogowywanie...' : 'Logout'}
+        </button>
+    )
 }
