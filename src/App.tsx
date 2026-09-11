@@ -15,26 +15,26 @@ import './App.css'
 const AboutPage = lazy(() => import('./pages/AboutPage'))
 const ContanctPage = lazy(() => import('./pages/ContactPage'))
 const ProfilePage = lazy(() => import('./pages/ProfilePage'))
-
+const SignupPage = lazy(() => import('./pages/SignupPage'))
 
 function App() {
-  return (
-       <Routes>
-        <Route element={<RedirectOfAuth />}>
-            <Route path="/login" element={<LoginPage />} />
-        </Route>
+    return (
+        <Routes>
+            <Route element={<RedirectOfAuth />}>
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<SignupPage />} />
+            </Route>
 
-        <Route element={<RequireAuth />}>
-          <Route element={<Layout />}>
-            <Route path="/" element={<SearchPage />} />
-            <Route path="About" element={<AboutPage />} />
-            <Route path="Contact" element={<ContanctPage />} />
-            <Route path="Profile" element={<ProfilePage />} />
-          </Route>
-        </Route>
-       </Routes>
- 
-  )
+            <Route element={<RequireAuth />}>
+                <Route element={<Layout />}>
+                    <Route path="/" element={<SearchPage />} />
+                    <Route path="About" element={<AboutPage />} />
+                    <Route path="Contact" element={<ContanctPage />} />
+                    <Route path="Profile" element={<ProfilePage />} />
+                </Route>
+            </Route>
+        </Routes>
+    )
 }
 
 export default App
