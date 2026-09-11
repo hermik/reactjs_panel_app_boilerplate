@@ -1,3 +1,4 @@
+import { PanelLeft } from 'lucide-react'
 import { useAppLayoutStore } from '../../stores/layoutStore'
 import { Button } from '../ui/button'
 
@@ -9,6 +10,7 @@ export default function SidebarToggle() {
             className="sidebar-toggle-translate-y-1/2 text-muted-foreground hover:text-foreground"
             onClick={toggleSidebar}
         >
+            <PanelLeft className="mr-2 h-4 w-4" />
             Toggle Sidebar
         </Button>
     )

@@ -23,16 +23,3 @@ section.content {
     position: relative;
     padding-top: 20px;
 }
-aside.sidebar {
-    width: 200px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    background-color: #f8f8f8;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-}
-aside.sidebar.opened {
-    transform: translateX(0);
-}

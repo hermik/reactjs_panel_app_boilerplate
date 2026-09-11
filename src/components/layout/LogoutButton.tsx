@@ -1,6 +1,8 @@
 import { Button } from '../ui/button'
+import { Spinner } from '../ui/spinner'
 import { useLogoutMutation } from './useLogoutMutation'
 
+import { LogOut } from 'lucide-react'
 export default function LogoutButton() {
     const logoutMutation = useLogoutMutation()
 
@@ -11,7 +13,7 @@ export default function LogoutButton() {
             onClick={() => logoutMutation.mutate()}
             disabled={logoutMutation.isPending}
         >
-            {logoutMutation.isPending ? 'Wylogowywanie...' : 'Logout'}
+            {logoutMutation.isPending ? <Spinner className="ml-2 h-4 w-4" /> : <LogOut className="ml-2 h-4 w-4" />}
         </Button>
     )
 }
