@@ -23,7 +23,9 @@ export default function Layout() {
             </header>
             <section className="content">
                 <Sidebar />
-                <Outlet />
+                <div className="main-content flex align-center justify-center">
+                    <Outlet />
+                </div>
             </section>
         </div>
     )
