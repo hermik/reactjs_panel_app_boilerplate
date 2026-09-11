@@ -7,9 +7,10 @@ function NavBar() {
                 <ul className="flex items-center gap-1">
                     {[
                         { to: '/', label: 'Home' },
-                        { to: '/About', label: 'About' },
-                        { to: '/Contact', label: 'Contact' },
-                        { to: '/Profile', label: 'Profile' },
+                        { to: '/about', label: 'About' },
+                        { to: '/search', label: 'Search' },
+                        { to: '/profile', label: 'Profile' },
+                        { to: '/contact', label: 'Contact' },
                     ].map((item) => (
                         <li key={item.to}>
                             <NavLink
