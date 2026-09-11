@@ -47,6 +47,39 @@ export class AuthError extends Error {
 // — druga i trzecia "poczekają" na tę samą, już trwającą próbę.
 let refreshPromise: Promise<string> | null = null
 
+interface CurrentUser {
+    name: string
+    email: string
+}
+
+/**
+ * Dociąga name/email po (odzyskanym) tokenie — F5 zeruje userStore (żyje tylko
+ * w JS), a /v1/auth/refresh zwraca tylko accessToken, więc bez tego dodatkowego
+ * calla ProfilePage i inne miejsca czytające name/email z userStore świeciłyby
+ * pustką aż do następnego pełnego logowania. Błąd tego calla nie ma wywracać
+ * samego refreshu tokenu — sesja jest ważna niezależnie od tego, czy uda się
+ * poznać imię/email, więc łykamy go i zostawiamy store z tym, co miał wcześniej.
+ */
+async function refreshUserProfile(accessToken: string): Promise<void> {
+    try {
+        const response = await fetch(`${API_BASE_URL}/v1/users/me`, {
+            headers: { Authorization: `Bearer ${accessToken}` },
+            credentials: 'include',
+        })
+
+        if (!response.ok) {
+            return
+        }
+
+        const user: CurrentUser = await response.json()
+        const { setName, setEmail } = useUserStore.getState().actions
+        setName(user.name)
+        setEmail(user.email)
+    } catch {
+        // Sesja i tak jest ważna (token już odświeżony) — brak profilu nie jest tu fatalny.
+    }
+}
+
 /** Woła backend po nowy access token, korzystając z httpOnly refresh-cookie. */
 async function refreshAccessToken(): Promise<string> {
     const response = await fetch(`${API_BASE_URL}/v1/auth/refresh`, {
@@ -59,6 +92,7 @@ async function refreshAccessToken(): Promise<string> {
     }
 
     const data: { accessToken: string } = await response.json()
+    await refreshUserProfile(data.accessToken)
     return data.accessToken
 }
 
