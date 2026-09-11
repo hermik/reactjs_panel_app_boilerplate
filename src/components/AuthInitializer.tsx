@@ -1,4 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react'
+import { Loader2 } from 'lucide-react'
+import { useAppLayoutStore } from '../stores/layoutStore'
 import { restoreSession } from '../api/apiClient'
 import { hasSessionHint } from '../api/tokenStore'
 
@@ -13,7 +15,11 @@ import { hasSessionHint } from '../api/tokenStore'
  */
 export default function AuthInitializer({ children }: { children: ReactNode }) {
     const [isChecking, setIsChecking] = useState(hasSessionHint)
+    const isDarkMode = useAppLayoutStore((state) => state.isDarkMode)
 
+    useEffect(() => {
+        document.documentElement.classList.toggle('dark', isDarkMode)
+    }, [isDarkMode])
     useEffect(() => {
         if (!hasSessionHint()) {
             return
@@ -22,7 +28,17 @@ export default function AuthInitializer({ children }: { children: ReactNode }) {
     }, [])
 
     if (isChecking) {
-        return <p>Sprawdzanie sesji...</p>
+        return (
+            <div className="flex min-h-svh w-full items-center justify-center p-6">
+                <div className="flex items-center gap-4 rounded-xl border border-border bg-card p-6 shadow-sm">
+                    <Loader2 className="size-10 shrink-0 animate-spin text-primary" />
+                    <div className="flex flex-col gap-0.5">
+                        <p className="font-medium text-card-foreground">Restoring your session</p>
+                        <p className="text-sm text-muted-foreground">Please wait while we reconnect you...</p>
+                    </div>
+                </div>
+            </div>
+        )
     }
 
     return children
