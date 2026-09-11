@@ -7,6 +7,7 @@ import { Routes, Route } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
 import TablePage from './pages/TablePage'
+import NotFoundPage from './pages/NotFoundPage'
 
 import './App.css'
 
@@ -42,6 +43,8 @@ function App() {
                     <Route path="/posts" element={<PostsPage />} />
                 </Route>
             </Route>
+
+            <Route path="*" element={<NotFoundPage />} />
         </Routes>
     )
 }
