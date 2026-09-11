@@ -1,6 +1,6 @@
 import { useUserStore } from '../../stores/userStore'
 import { useCommentsQuery } from './useCommentsQuery'
-import { User } from 'lucide-react'
+import { Mail, User } from 'lucide-react'
 
 function getInitials(name: string): string {
     return name
@@ -9,6 +9,21 @@ function getInitials(name: string): string {
         .map((word) => word[0])
         .join('')
         .toUpperCase()
+}
+
+const AVATAR_COLORS = [
+    'bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-300',
+    'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300',
+    'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300',
+    'bg-sky-100 text-sky-700 dark:bg-sky-500/20 dark:text-sky-300',
+    'bg-violet-100 text-violet-700 dark:bg-violet-500/20 dark:text-violet-300',
+    'bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-500/20 dark:text-fuchsia-300',
+]
+
+/** Deterministyczny kolor po treści `name` — ta sama osoba zawsze dostaje ten sam kolor awatara. */
+function getAvatarColor(name: string): string {
+    const hash = name.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0)
+    return AVATAR_COLORS[hash % AVATAR_COLORS.length]
 }
 
 export default function ProfilePage() {
@@ -73,20 +88,25 @@ export default function ProfilePage() {
                     )}
                     {comments && (
                         <ul className="space-y-3">
-                            {comments.map((comment) => (
+                            {comments.slice(0, 5).map((comment) => (
                                 <li
                                     key={comment.id}
-                                    className="flex items-start gap-3 rounded-lg border bg-background p-4 transition-colors hover:bg-muted/50"
+                                    className="group flex items-start gap-3 rounded-xl border bg-background p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
                                 >
-                                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-muted text-sm font-semibold text-muted-foreground">
+                                    <div
+                                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold ${getAvatarColor(comment.name)}`}
+                                    >
                                         {getInitials(comment.name)}
                                     </div>
                                     <div className="min-w-0 flex-1">
                                         <p className="truncate text-sm font-semibold capitalize text-foreground">
                                             {comment.name}
                                         </p>
-                                        <p className="truncate text-xs text-muted-foreground">{comment.email}</p>
-                                        <p className="mt-2 text-sm leading-6 whitespace-pre-line text-foreground">
+                                        <p className="mt-0.5 flex items-center gap-1 truncate text-xs text-muted-foreground">
+                                            <Mail className="size-3" />
+                                            {comment.email}
+                                        </p>
+                                        <p className="mt-2.5 text-sm leading-relaxed whitespace-pre-line text-foreground/90">
                                             {comment.body}
                                         </p>
                                     </div>
