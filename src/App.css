@@ -1,44 +1,42 @@
 h1 {
 }
 header.main {
-  background-color: var(--accent-bg);
-  padding: 20px;
-  border-bottom: 1px solid #ddd;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    background-color: var(--accent-bg);
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
-.logo, .logo a {
-  color: var(--text-color);
-  text-decoration: none;
+.logo,
+.logo a {
+    color: var(--text-color);
+    text-decoration: none;
 }
 header.main nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 header.main nav ul li {
-  display: inline-block;
-  margin-right: 10px;
+    display: inline-block;
+    margin-right: 10px;
 }
-header.main nav ul li a {
-  text-decoration: none;
-  color: var(--accent);
-}
+
 section.content {
-  position: relative;
-  padding-top: 20px;
+    position: relative;
+    padding-top: 20px;
 }
 aside.sidebar {
-  width: 200px;
-  position: fixed;
-  top:0;
-  left: 0;
-  height:100%;
-  background-color: #f8f8f8;
-  transform: translateX(-100%);
-  transition: transform 0.3s ease;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: #f8f8f8;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
 }
 aside.sidebar.opened {
-  transform: translateX(0);
+    transform: translateX(0);
 }
