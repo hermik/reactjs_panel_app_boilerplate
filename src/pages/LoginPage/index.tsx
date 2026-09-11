@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Field, FieldDescription, FieldGroup, FieldLabel } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
+import { Spinner } from '@/components/ui/spinner'
 type FieldErrors = {
     email?: string
     password?: string
@@ -83,7 +84,7 @@ export default function LoginPage() {
                                     </Field>
                                     <Field>
                                         <Button type="submit" onClick={handleLogin}>
-                                            {loginMutation.isPending ? 'Logowanie...' : 'Login'}
+                                            {loginMutation.isPending ? <Spinner className="size-4 mr-2" /> : 'Login'}
                                         </Button>
                                         {/* <Button variant="outline" type="button">
                   Login with Google

@@ -1,5 +1,5 @@
 import { useUserStore } from '../../stores/userStore'
-import { useCommentsQuery } from './useCommentsQuery'
+import { useCommentsQuery } from '@/hooks/useCommentsQuery'
 import { Mail, User } from 'lucide-react'
 
 function getInitials(name: string): string {
