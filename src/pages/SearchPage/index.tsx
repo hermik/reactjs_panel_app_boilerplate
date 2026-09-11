@@ -13,7 +13,7 @@ export default function SearchPage() {
         }
         const timer = setTimeout(() => {
             setDebouncedQuery(query)
-        }, 100)
+        }, 180)
         return () => clearTimeout(timer)
     }, [query])
 
@@ -27,9 +27,9 @@ export default function SearchPage() {
         <div className="p-4 w-full max-w-sm">
             <h1>Search Page</h1>
             <SearchInput type="text" placeholder="Search..." value={query} onChange={handleChange} />
-            {isLoading && <p>Loading...</p>}
+            {/* {isLoading && <p>Loading...</p>} */}
             {error && <p>Error: {error.message}</p>}
-            <Results results={data ?? []} />
+            <Results query={debouncedQuery} results={data ?? []} />
         </div>
     )
 }
