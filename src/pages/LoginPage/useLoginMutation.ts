@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { apiRequest } from '../../api/apiClient'
+import { ApiError, apiRequest } from '../../api/apiClient'
 import { setAccessToken } from '../../api/tokenStore'
 import { useUserStore } from '../../stores/userStore'
 import type { LoginFormValues } from './loginSchema'
@@ -13,6 +13,18 @@ interface LoginResponse {
         role: string
         createdAt: string
     }
+}
+
+/**
+ * Mapuje błąd logowania na komunikat dla usera. 401 to jedyny przypadek
+ * "złe dane" — inne statusy (500 przy padniętej bazie itp.) albo błąd sieci
+ * nie mają nic wspólnego z poprawnością hasła i nie powinny tak być nazwane.
+ */
+export function getLoginErrorMessage(error: unknown): string {
+    if (error instanceof ApiError && error.status === 401) {
+        return 'Nieprawidłowy email lub hasło.'
+    }
+    return 'Wystąpił błąd serwera. Spróbuj ponownie później.'
 }
 
 /** POST /v1/auth/login — skipAuth: true, bo nie mamy jeszcze tokenu i złe hasło (401) ma tu nie odpalać refresh-retry. */

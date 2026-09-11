@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { z } from 'zod'
-import { useLoginMutation } from './useLoginMutation'
+import { useLoginMutation, getLoginErrorMessage } from './useLoginMutation'
 import { loginSchema } from './loginSchema'
 import { consumeAuthNotice } from '../../api/authNotice'
 
@@ -45,7 +45,7 @@ export default function LoginPage() {
                     <input type="password" id="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     {errors.password && <p>{errors.password}</p>}
                 </div>
-                {loginMutation.isError && <p>Nieprawidłowy email lub hasło.</p>}
+                {loginMutation.isError && <p>{getLoginErrorMessage(loginMutation.error)}</p>}
                 <button type="submit" disabled={loginMutation.isPending} onClick={handleLogin}>
                     {loginMutation.isPending ? 'Logowanie...' : 'Login'}
                 </button>
