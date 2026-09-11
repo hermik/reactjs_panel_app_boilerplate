@@ -6,6 +6,7 @@ import RedirectOfAuth from './components/RedirectOfAuth'
 import { Routes, Route } from 'react-router-dom'
 import LoginPage from './pages/LoginPage'
 import HomePage from './pages/HomePage'
+import TablePage from './pages/TablePage'
 
 import './App.css'
 
@@ -35,6 +36,7 @@ function App() {
                     <Route path="/search" element={<SearchPage />} />
                     <Route path="/about" element={<AboutPage />} />
                     <Route path="/contact" element={<ContanctPage />} />
+                    <Route path="/table" element={<TablePage />} />
                     <Route path="/profile" element={<ProfilePage />} />
                 </Route>
             </Route>

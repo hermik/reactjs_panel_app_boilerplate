@@ -88,7 +88,7 @@ export default function Layout() {
             </header>
             <section className="content">
                 <Sidebar />
-                <div className="main-content relative flex align-center justify-center">
+                <div className="main-content relative flex justify-center">
                     {isPending && (
                         <div className="absolute inset-0 z-10 flex items-center justify-center gap-3 bg-background/60 backdrop-blur-sm">
                             <Spinner className="size-6" />
