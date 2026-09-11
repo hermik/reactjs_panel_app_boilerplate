@@ -1,4 +1,5 @@
-import { lazy } from 'react'
+import { lazy, useEffect } from 'react'
+import { useAppLayoutStore } from '@/stores/layoutStore'
 import Layout from './components/layout/Layout'
 import RequireAuth from './components/RequireAuth'
 import RedirectOfAuth from './components/RedirectOfAuth'
@@ -18,6 +19,11 @@ const ProfilePage = lazy(() => import('./pages/ProfilePage'))
 const SignupPage = lazy(() => import('./pages/SignupPage'))
 
 function App() {
+    const isDarkMode = useAppLayoutStore((state) => state.isDarkMode)
+
+    useEffect(() => {
+        document.documentElement.classList.toggle('dark', isDarkMode)
+    }, [isDarkMode])
     return (
         <Routes>
             <Route element={<RedirectOfAuth />}>
