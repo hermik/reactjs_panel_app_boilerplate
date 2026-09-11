@@ -8,11 +8,14 @@ type AppLayoutStoreType = {
     toggleDarkMode: () => void
 }
 
+/** Tylko dla pierwszego wejścia (brak jeszcze wpisu w localStorage) — potem liczy się zapisany wybór usera, nie system. */
+const prefersDarkMode = () => window.matchMedia('(prefers-color-scheme: dark)').matches
+
 export const useAppLayoutStore = create<AppLayoutStoreType>()(
     persist(
         (set) => ({
             isSidebarOpen: false,
-            isDarkMode: false,
+            isDarkMode: prefersDarkMode(),
             toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
             toggleDarkMode: () => set((state) => ({ isDarkMode: !state.isDarkMode })),
         }),
