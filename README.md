@@ -22,3 +22,9 @@ Feel free to use it.
 
 The best way is to use it with this API https://github.com/hermik/node_restful_api
 node_restful_api -> implements basic routes for creating users, utilizes access and refresh tokens, postgres db. Feel free to try this project
+
+# Todo
+
+- implement register page
+- implement more UI from shadcn
+- add tests
