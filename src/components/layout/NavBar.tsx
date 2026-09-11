@@ -1,5 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { memo, type TransitionStartFunction } from 'react'
+import { navItems } from './navItems'
+
 function NavBar({ startTransition }: { startTransition: TransitionStartFunction }) {
     const navigate = useNavigate()
 
@@ -7,13 +9,7 @@ function NavBar({ startTransition }: { startTransition: TransitionStartFunction 
         <nav>
             <div className="mx-auto flex h-16 max-w-7xl items-center px-6">
                 <ul className="flex items-center gap-1">
-                    {[
-                        { to: '/', label: 'Home' },
-                        { to: '/about', label: 'About' },
-                        { to: '/search', label: 'Search' },
-                        { to: '/profile', label: 'Profile' },
-                        { to: '/contact', label: 'Contact' },
-                    ].map((item) => (
+                    {navItems.map((item) => (
                         <li key={item.to}>
                             <NavLink
                                 to={item.to}
