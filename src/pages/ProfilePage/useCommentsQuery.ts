@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 
 export interface Comment {
     id: number
+    name: string
+    email: string
     body: string
 }
 
