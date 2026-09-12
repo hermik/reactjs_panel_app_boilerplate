@@ -7,6 +7,7 @@ import { useState } from 'react'
 import { z } from 'zod'
 import { signupSchema } from './signupSchema'
 import { NavLink } from 'react-router-dom'
+import { useRegisterMutation } from './useRegisterMutation'
 type FieldErrors = {
     name?: string
     email?: string
@@ -16,6 +17,7 @@ type FieldErrors = {
 
 export default function SignupPage() {
     const [errors, setErrors] = useState<FieldErrors>({})
+    const registerMutation = useRegisterMutation()
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
@@ -34,7 +36,7 @@ export default function SignupPage() {
         }
 
         setErrors({})
-        // TODO: wysłać result.data do API rejestracji
+        registerMutation.mutate(result.data)
     }
 
     return (
