@@ -20,11 +20,13 @@ type ApiOptions = RequestInit & { skipAuth?: boolean }
  */
 export class ApiError extends Error {
     status: number
+    code?: string
 
-    constructor(message: string, status: number) {
+    constructor(message: string, status: number, code?: string) {
         super(message)
         this.name = 'ApiError'
         this.status = status
+        this.code = code
     }
 }
 
@@ -213,7 +215,8 @@ export async function apiRequest<T>(path: string, options?: ApiOptions): Promise
     const response = await apiClient(path, options)
 
     if (!response.ok) {
-        throw new ApiError(`Request failed: ${response.status}`, response.status)
+        const body: { message?: string; code?: string } | null = await response.json().catch(() => null)
+        throw new ApiError(body?.message ?? `Request failed: ${response.status}`, response.status, body?.code)
     }
 
     return response.json() as Promise<T>

@@ -8,6 +8,7 @@ import { z } from 'zod'
 import { signupSchema } from './signupSchema'
 import { NavLink } from 'react-router-dom'
 import { useRegisterMutation } from './useRegisterMutation'
+import { ApiError } from '@/api/apiClient'
 type FieldErrors = {
     name?: string
     email?: string
@@ -17,6 +18,7 @@ type FieldErrors = {
 
 export default function SignupPage() {
     const [errors, setErrors] = useState<FieldErrors>({})
+    const [formError, setFormError] = useState<string | undefined>()
     const registerMutation = useRegisterMutation()
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -32,11 +34,21 @@ export default function SignupPage() {
                 password: fieldErrors.password?.[0],
                 confirmPassword: fieldErrors.confirmPassword?.[0],
             })
+            setFormError(undefined)
             return
         }
 
         setErrors({})
-        registerMutation.mutate(result.data)
+        setFormError(undefined)
+        registerMutation.mutate(result.data, {
+            onError: (error) => {
+                if (error instanceof ApiError && error.code === 'CONFLICT') {
+                    setErrors((prev) => ({ ...prev, email: error.message }))
+                    return
+                }
+                setFormError(error instanceof ApiError ? error.message : 'Something went wrong. Please try again.')
+            },
+        })
     }
 
     return (
@@ -94,7 +106,10 @@ export default function SignupPage() {
                                 </Field>
                                 <FieldGroup>
                                     <Field>
-                                        <Button type="submit">Create Account</Button>
+                                        <FieldError>{formError}</FieldError>
+                                        <Button type="submit" disabled={registerMutation.isPending}>
+                                            {registerMutation.isPending ? 'Creating account...' : 'Create Account'}
+                                        </Button>
                                         {/* <Button variant="outline" type="button">
                                             Sign up with Google
                                         </Button> */}
