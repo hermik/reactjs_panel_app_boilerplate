@@ -1,8 +1,20 @@
 import { useMutation } from '@tanstack/react-query'
-import { ApiError, apiRequest } from '../../api/apiClient'
+import { toast } from 'sonner'
+import { apiRequest, ApiError } from '../../api/apiClient'
 import { setAccessToken } from '../../api/tokenStore'
 import { useUserStore } from '../../stores/userStore'
 import type { LoginFormValues } from './loginSchema'
+
+export function isServerError(error: unknown): boolean {
+    return error instanceof ApiError && error.status >= 500
+}
+
+export function getLoginErrorMessage(error: unknown): string {
+    if (error instanceof ApiError) {
+        return error.message
+    }
+    return 'Something went wrong. Please try again.'
+}
 
 interface LoginResponse {
     accessToken: string
@@ -13,18 +25,6 @@ interface LoginResponse {
         role: string
         createdAt: string
     }
-}
-
-/**
- * Mapuje błąd logowania na komunikat dla usera. 401 to jedyny przypadek
- * "złe dane" — inne statusy (500 przy padniętej bazie itp.) albo błąd sieci
- * nie mają nic wspólnego z poprawnością hasła i nie powinny tak być nazwane.
- */
-export function getLoginErrorMessage(error: unknown): string {
-    if (error instanceof ApiError && error.status === 401) {
-        return 'Nieprawidłowy email lub hasło.'
-    }
-    return 'Wystąpił błąd serwera. Spróbuj ponownie później.'
 }
 
 /** POST /v1/auth/login — skipAuth: true, bo nie mamy jeszcze tokenu i złe hasło (401) ma tu nie odpalać refresh-retry. */
@@ -42,6 +42,12 @@ export function useLoginMutation() {
             setName(user.name)
             setEmail(user.email)
             login()
+            toast.success(`Welcome, ${user.name}! :)`, { position: 'top-center' })
+        },
+        onError: (error) => {
+            if (isServerError(error)) {
+                toast.error(getLoginErrorMessage(error), { position: 'top-center' })
+            }
         },
     })
 }

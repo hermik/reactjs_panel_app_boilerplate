@@ -7,6 +7,7 @@ import './index.css'
 import App from './App.tsx'
 import AuthInitializer from './components/AuthInitializer.tsx'
 import { TooltipProvider } from './components/ui/tooltip.tsx'
+import { Toaster } from './components/ui/sonner.tsx'
 
 //query client wrapper for handling tokens and auto refresh
 import { queryClient } from './lib/queryClient'
@@ -19,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
                     <AuthInitializer>
                         <App />
                     </AuthInitializer>
+                    <Toaster />
                 </TooltipProvider>
             </QueryClientProvider>
         </BrowserRouter>

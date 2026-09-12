@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { z } from 'zod'
-import { useLoginMutation, getLoginErrorMessage } from './useLoginMutation'
+import { useLoginMutation, getLoginErrorMessage, isServerError } from './useLoginMutation'
 import { loginSchema } from './loginSchema'
 import { consumeAuthNotice } from '../../api/authNotice'
 import { Button } from '@/components/ui/button'
@@ -95,7 +95,9 @@ export default function LoginPage() {
                                     </Field>
                                 </FieldGroup>
 
-                                {loginMutation.isError && <p>{getLoginErrorMessage(loginMutation.error)}</p>}
+                                {loginMutation.isError && !isServerError(loginMutation.error) && (
+                                    <p>{getLoginErrorMessage(loginMutation.error)}</p>
+                                )}
                             </form>
                         </CardContent>
                     </Card>
