@@ -1,7 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { apiClient, ApiError } from '../../api/apiClient'
 
-export function useSearchQuery(query: string) {
+export function useSearchQuery(query: string): {
+    data: string[] | undefined
+    isLoading: boolean
+    error: ApiError | null
+} {
     return useQuery({
         queryKey: ['search', query],
         // GET /v1/test/delay/500 — przez apiClient, więc korzysta z auto-refresh na 401.

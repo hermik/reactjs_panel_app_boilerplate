@@ -17,7 +17,7 @@ export default function SearchPage() {
         return () => clearTimeout(timer)
     }, [query])
 
-    const { data, isLoading, error } = useSearchQuery(debouncedQuery)
+    const { data, error } = useSearchQuery(debouncedQuery)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(e.target.value)
