@@ -18,6 +18,7 @@ const ContanctPage = lazy(() => import('./pages/ContactPage'))
 const ProfilePage = lazy(() => import('./pages/ProfilePage'))
 const SignupPage = lazy(() => import('./pages/SignupPage'))
 const PostsPage = lazy(() => import('./pages/PostsPage'))
+const PostPage = lazy(() => import('./pages/PostPage'))
 
 function App() {
     const isDarkMode = useAppLayoutStore((state) => state.isDarkMode)
@@ -41,6 +42,7 @@ function App() {
                     <Route path="/table" element={<TablePage />} />
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/posts" element={<PostsPage />} />
+                    <Route path="/posts/:id" element={<PostPage />} />
                 </Route>
             </Route>
 

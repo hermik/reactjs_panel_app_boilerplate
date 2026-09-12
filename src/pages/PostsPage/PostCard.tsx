@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import {
     Card,
     CardHeader,
@@ -10,18 +11,20 @@ import type { Post } from './usePostsQuery'
 
 export function PostCard({ post }: { post: Post }) {
     return (
-        <Card className="min-h-45">
-            <CardHeader>
-                <CardTitle className="line-clamp-1">{post.title}</CardTitle>
-                <CardDescription>
-                    {new Date(post.createdAt).toLocaleDateString()}
-                    {post.published ? '' : ' · Draft'}
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <p className="line-clamp-3 text-muted-foreground">{post.content}</p>
-            </CardContent>
-        </Card>
+        <Link to={`/posts/${post.id}`}>
+            <Card className="min-h-45 transition-colors hover:bg-muted/50">
+                <CardHeader>
+                    <CardTitle className="line-clamp-1">{post.title}</CardTitle>
+                    <CardDescription>
+                        {new Date(post.createdAt).toLocaleDateString()}
+                        {post.published ? '' : ' · Draft'}
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <p className="line-clamp-3 text-muted-foreground">{post.content}</p>
+                </CardContent>
+            </Card>
+        </Link>
     )
 }
 

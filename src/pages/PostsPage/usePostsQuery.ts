@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { apiRequest } from '../../api/apiClient'
 
 export interface Post {
-    id: number
+    id: string
     title: string
     content: string
     published: boolean
