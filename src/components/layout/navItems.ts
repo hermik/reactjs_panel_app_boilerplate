@@ -4,6 +4,7 @@ export const navItems = [
     { to: '/search', label: 'Search' },
     { to: '/posts', label: 'Posts' },
     { to: '/table', label: 'Table' },
+    { to: '/form', label: 'Form' },
     { to: '/profile', label: 'Profile' },
     { to: '/contact', label: 'Contact' },
 ]
