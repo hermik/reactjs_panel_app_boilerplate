@@ -1,10 +1,10 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-
 type AppLayoutStoreType = {
     isSidebarOpen: boolean
     isDarkMode: boolean
     toggleSidebar: () => void
+    setSidebarOpen: (open: boolean) => void
     toggleDarkMode: () => void
 }
 
@@ -17,10 +17,11 @@ export const useAppLayoutStore = create<AppLayoutStoreType>()(
             isSidebarOpen: false,
             isDarkMode: prefersDarkMode(),
             toggleSidebar: () => set((state) => ({ isSidebarOpen: !state.isSidebarOpen })),
+            setSidebarOpen: (open) => set({ isSidebarOpen: open }),
             toggleDarkMode: () => set((state) => ({ isDarkMode: !state.isDarkMode })),
         }),
-        { name: 'app-layout' }
-    )
+        { name: 'app-layout' },
+    ),
 )
 
-export const useSidebarOpen = () => useAppLayoutStore((state) => state.isSidebarOpen);
+export const useSidebarOpen = () => useAppLayoutStore((state) => state.isSidebarOpen)
