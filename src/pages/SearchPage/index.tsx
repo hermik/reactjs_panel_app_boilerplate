@@ -24,7 +24,7 @@ export default function SearchPage() {
     }
 
     return (
-        <div className="p-4 w-full max-w-sm">
+        <div className="p-4 w-full max-w-sm  gap-4 p-4">
             <h1>Search Page</h1>
             <SearchInput type="text" placeholder="Search..." value={query} onChange={handleChange} />
             {/* {isLoading && <p>Loading...</p>} */}

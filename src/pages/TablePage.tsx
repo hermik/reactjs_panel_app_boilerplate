@@ -63,7 +63,7 @@ export default function TablePage() {
     })
 
     return (
-        <div className="w-full p-6">
+        <div className="w-full p-4 gap-4">
             <div className="mb-4">
                 <h2 className="text-2xl font-semibold tracking-tight">Comments</h2>
                 <p className="mt-1 text-sm text-muted-foreground">Sortable by name and email.</p>

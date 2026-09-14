@@ -33,7 +33,7 @@ export default function ProfilePage() {
     const isLogged = useUserStore((state) => state.isLogged)
 
     return (
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-6xl gap-4 p-4">
             <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
                 {/* Profile panel */}
                 <aside className="rounded-xl border bg-card p-6 text-card-foreground shadow-sm">

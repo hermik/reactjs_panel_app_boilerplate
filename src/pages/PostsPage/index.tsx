@@ -15,11 +15,11 @@ export default function PostsPage() {
                 </div>
             </header> */}
 
-            <main className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 p-4">
                 {isLoading
                     ? Array.from({ length: SKELETON_COUNT }).map((_, i) => <PostCardSkeleton key={i} />)
                     : posts?.map((post) => <PostCard key={post.id} post={post} />)}
-            </main>
+            </div>
         </>
     )
 }

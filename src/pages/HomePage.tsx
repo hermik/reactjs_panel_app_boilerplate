@@ -79,12 +79,7 @@ export default function HomePage() {
                         <ChartContainer config={revenueChartConfig} className="aspect-auto h-64 w-full">
                             <AreaChart data={revenueData} margin={{ left: 0, right: 12, top: 8, bottom: 0 }}>
                                 <CartesianGrid vertical={false} className="stroke-border" />
-                                <XAxis
-                                    dataKey="month"
-                                    tickLine={false}
-                                    axisLine={false}
-                                    tickMargin={8}
-                                />
+                                <XAxis dataKey="month" tickLine={false} axisLine={false} tickMargin={8} />
                                 <YAxis tickLine={false} axisLine={false} tickMargin={8} width={40} />
                                 <ChartTooltip content={<ChartTooltipContent indicator="dot" />} />
                                 <ChartLegend content={<ChartLegendContent />} />
@@ -123,7 +118,12 @@ export default function HomePage() {
                                 <XAxis dataKey="source" tickLine={false} axisLine={false} tickMargin={8} />
                                 <YAxis tickLine={false} axisLine={false} tickMargin={8} width={40} />
                                 <ChartTooltip content={<ChartTooltipContent indicator="dot" hideLabel />} />
-                                <Bar dataKey="visits" fill="var(--color-visits)" radius={[4, 4, 0, 0]} maxBarSize={48} />
+                                <Bar
+                                    dataKey="visits"
+                                    fill="var(--color-visits)"
+                                    radius={[4, 4, 0, 0]}
+                                    maxBarSize={48}
+                                />
                             </BarChart>
                         </ChartContainer>
                     </CardContent>
