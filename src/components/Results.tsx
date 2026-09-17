@@ -30,9 +30,9 @@ function highlightMatch(text: string, query: string) {
 export default function Results({ query, results }: ResultProps) {
     const items = Array.isArray(results) ? results.splice(0, 10) : []
 
-    // if (items.length === 0) {
-    //     return null
-    // }
+    if (items.length === 0) {
+        return null
+    }
 
     return (
         <Card size="sm" className="mt-1">
