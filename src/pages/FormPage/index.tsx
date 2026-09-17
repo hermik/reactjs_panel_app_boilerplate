@@ -18,6 +18,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/ui/password-input'
 import { Textarea } from '@/components/ui/textarea'
+import { Rating } from '@/components/ui/rating'
 
 type FieldErrors = Partial<Record<keyof FormValues, string>>
 
@@ -76,8 +77,8 @@ export default function FormPage() {
                 <CardHeader>
                     <CardTitle>Form example — ref-based + zod</CardTitle>
                     <CardDescription>
-                        It uses uncontrolled form fields and reads data from the DOM using FormData upon
-                        submission, with validation handled by a Zod schema.
+                        It uses uncontrolled form fields and reads data from the DOM using FormData upon submission,
+                        with validation handled by a Zod schema.
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
