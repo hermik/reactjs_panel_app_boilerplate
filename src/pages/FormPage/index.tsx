@@ -407,14 +407,8 @@ export default function FormPage() {
                                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                         <Field>
                                             <FieldLabel htmlFor="rating">Rating (1-5)</FieldLabel>
-                                            <Input
-                                                id="rating"
-                                                name="rating"
-                                                type="number"
-                                                min={1}
-                                                max={5}
-                                                aria-invalid={!!errors.rating}
-                                            />
+
+                                            <Rating id="rating" name="rating" aria-invalid={!!errors.rating} />
                                             <FieldError>{errors.rating}</FieldError>
                                         </Field>
                                     </div>
