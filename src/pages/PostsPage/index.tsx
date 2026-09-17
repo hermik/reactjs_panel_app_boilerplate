@@ -5,7 +5,7 @@ import { PostCard, PostCardSkeleton } from './PostCard'
 const SKELETON_COUNT = 4
 
 export default function PostsPage() {
-    const { data: posts, isLoading } = usePostsQuery()
+    const { data: postsResponse, isLoading } = usePostsQuery()
 
     return (
         <>
@@ -18,7 +18,7 @@ export default function PostsPage() {
             <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 p-4">
                 {isLoading
                     ? Array.from({ length: SKELETON_COUNT }).map((_, i) => <PostCardSkeleton key={i} />)
-                    : posts?.map((post) => <PostCard key={post.id} post={post} />)}
+                    : postsResponse?.data.map((post) => <PostCard key={post.id} post={post} />)}
             </div>
         </>
     )

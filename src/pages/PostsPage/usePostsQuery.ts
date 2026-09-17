@@ -10,9 +10,19 @@ export interface Post {
     createdAt: string
     updatedAt: string
 }
+export interface PostsMeta {
+    total: number
+    page: number
+    pageSize: number
+    totalPages: number
+}
+export interface PostsResponse {
+    data: Post[]
+    meta: PostsMeta
+}
 export const usePostsQuery = () => {
     return useQuery({
-        queryFn: () => apiRequest<Post[]>('/v1/posts'),
+        queryFn: () => apiRequest<PostsResponse>('/v1/posts'),
         queryKey: ['posts'],
     })
 }
