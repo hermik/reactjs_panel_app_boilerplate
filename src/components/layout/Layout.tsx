@@ -13,6 +13,7 @@ import { navItems } from './navItems'
 import LogoutButton from './LogoutButton'
 import { SidebarProvider, SidebarInset } from '@/components/ui/sidebar.tsx'
 import { useAppLayoutStore } from '../../stores/layoutStore'
+import RouteErrorBoundary from './RouteErrorBoundary'
 
 export default function Layout() {
     const isSidebarOpen = useAppLayoutStore((state) => state.isSidebarOpen)
@@ -92,16 +93,18 @@ export default function Layout() {
                                         <span className="text-sm text-muted-foreground">Loading...</span>
                                     </div>
                                 )}
-                                <Suspense
-                                    fallback={
-                                        <div className="flex flex-1 items-center justify-center gap-3 p-10 text-muted-foreground">
-                                            <Spinner className="size-6" />
-                                            <span>Loading...</span>
-                                        </div>
-                                    }
-                                >
-                                    <Outlet />
-                                </Suspense>
+                                <RouteErrorBoundary>
+                                    <Suspense
+                                        fallback={
+                                            <div className="flex flex-1 items-center justify-center gap-3 p-10 text-muted-foreground">
+                                                <Spinner className="size-6" />
+                                                <span>Loading...</span>
+                                            </div>
+                                        }
+                                    >
+                                        <Outlet />
+                                    </Suspense>
+                                </RouteErrorBoundary>
                             </div>
                         </SidebarInset>
                     </SidebarProvider>

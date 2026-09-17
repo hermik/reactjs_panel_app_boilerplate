@@ -9,6 +9,7 @@ This template provides a minimal setup to get React working in Vite with HMR and
 - shadcn + tailwind for UI
 - Tanstack react query - for api calls
 - pages are lazy loaded (for bigger modules it will not download all code at startup)
+- Implementend error boundry
 
 #in this example you got:
 
