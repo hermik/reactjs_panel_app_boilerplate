@@ -20,9 +20,9 @@ export interface PostsResponse {
     data: Post[]
     meta: PostsMeta
 }
-export const usePostsQuery = () => {
+export const usePostsQuery = ({ page = 1, pageSize = 10 } = {}) => {
     return useQuery({
-        queryFn: () => apiRequest<PostsResponse>('/v1/posts'),
-        queryKey: ['posts'],
+        queryFn: () => apiRequest<PostsResponse>(`/v1/posts?page=${page}&pageSize=${pageSize}`),
+        queryKey: ['posts', page, pageSize],
     })
 }
