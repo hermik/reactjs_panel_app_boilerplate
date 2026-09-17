@@ -23,68 +23,68 @@ export default function Layout() {
 
     return (
         <div className="layout flex flex-col min-h-screen">
-            <SidebarProvider open={isSidebarOpen} onOpenChange={setSidebarOpen}>
-                <AppSidebar />
-                <SidebarInset>
-                    <main className="flex-1">
-                        <header className="sticky top-0 z-20 flex h-16 items-center justify-between gap-4 border-b border-border bg-muted/80 px-6 shadow-sm backdrop-blur-md">
-                            <div className="hidden flex-1 justify-center md:flex">
-                                <NavBar startTransition={startTransition} />
-                            </div>
+            <main className="flex-1">
+                <header className="flex h-16 items-center justify-between gap-4 border-b border-border px-6 shadow-sm backdrop-blur-md">
+                    <div className="hidden flex-1 justify-center md:flex">
+                        <NavBar startTransition={startTransition} />
+                    </div>
 
-                            <div className="hidden items-center gap-2 md:flex">
+                    <div className="hidden items-center gap-2 md:flex">
+                        <DarkModeToggle />
+                        <SidebarToggle />
+                        <Separator orientation="vertical" className="h-6" />
+                        <LogoutButton />
+                    </div>
+
+                    <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+                        <SheetTrigger asChild>
+                            <Button variant="outline" size="icon" aria-label="Open menu" className="md:hidden">
+                                <Menu className="size-4" />
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent
+                            side="left"
+                            className="flex flex-col gap-6 p-6"
+                            onOpenAutoFocus={(event) => event.preventDefault()}
+                        >
+                            <SheetHeader className="p-0">
+                                <SheetTitle>Menu</SheetTitle>
+                            </SheetHeader>
+                            <nav className="flex flex-col gap-1">
+                                {navItems.map((item) => (
+                                    <NavLink
+                                        key={item.to}
+                                        to={item.to}
+                                        onClick={(event) => {
+                                            event.preventDefault()
+                                            setIsMobileMenuOpen(false)
+                                            startTransition(() => navigate(item.to))
+                                        }}
+                                        className={({ isActive }) =>
+                                            `rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                                                isActive
+                                                    ? 'bg-primary text-primary-foreground'
+                                                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                                            }`
+                                        }
+                                    >
+                                        {item.label}
+                                    </NavLink>
+                                ))}
+                            </nav>
+                            <Separator />
+                            <div className="flex items-center gap-2">
                                 <DarkModeToggle />
                                 <SidebarToggle />
-                                <Separator orientation="vertical" className="h-6" />
                                 <LogoutButton />
                             </div>
-
-                            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-                                <SheetTrigger asChild>
-                                    <Button variant="outline" size="icon" aria-label="Open menu" className="md:hidden">
-                                        <Menu className="size-4" />
-                                    </Button>
-                                </SheetTrigger>
-                                <SheetContent
-                                    side="left"
-                                    className="flex flex-col gap-6 p-6"
-                                    onOpenAutoFocus={(event) => event.preventDefault()}
-                                >
-                                    <SheetHeader className="p-0">
-                                        <SheetTitle>Menu</SheetTitle>
-                                    </SheetHeader>
-                                    <nav className="flex flex-col gap-1">
-                                        {navItems.map((item) => (
-                                            <NavLink
-                                                key={item.to}
-                                                to={item.to}
-                                                onClick={(event) => {
-                                                    event.preventDefault()
-                                                    setIsMobileMenuOpen(false)
-                                                    startTransition(() => navigate(item.to))
-                                                }}
-                                                className={({ isActive }) =>
-                                                    `rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                                                        isActive
-                                                            ? 'bg-primary text-primary-foreground'
-                                                            : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                                                    }`
-                                                }
-                                            >
-                                                {item.label}
-                                            </NavLink>
-                                        ))}
-                                    </nav>
-                                    <Separator />
-                                    <div className="flex items-center gap-2">
-                                        <DarkModeToggle />
-                                        <SidebarToggle />
-                                        <LogoutButton />
-                                    </div>
-                                </SheetContent>
-                            </Sheet>
-                        </header>
-                        <section className="content">
+                        </SheetContent>
+                    </Sheet>
+                </header>
+                <section className="content">
+                    <SidebarProvider open={isSidebarOpen} onOpenChange={setSidebarOpen}>
+                        <AppSidebar />
+                        <SidebarInset>
                             <div className="main-content relative flex justify-center">
                                 {isPending && (
                                     <div className="absolute inset-0 z-10 flex items-center justify-center gap-3 bg-background/60 backdrop-blur-sm">
@@ -103,10 +103,10 @@ export default function Layout() {
                                     <Outlet />
                                 </Suspense>
                             </div>
-                        </section>
-                    </main>
-                </SidebarInset>
-            </SidebarProvider>
+                        </SidebarInset>
+                    </SidebarProvider>
+                </section>
+            </main>
         </div>
     )
 }
