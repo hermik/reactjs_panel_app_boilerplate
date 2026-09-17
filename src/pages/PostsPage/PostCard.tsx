@@ -1,23 +1,20 @@
 import { Link } from 'react-router-dom'
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-    CardContent,
-} from '../../components/ui/card'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../../components/ui/card'
+import { Badge } from '../../components/ui/badge'
 import { Skeleton } from '../../components/ui/skeleton'
 import type { Post } from './usePostsQuery'
 
-export function PostCard({ post }: { post: Post }) {
+export function PostCard({ post, userId }: { post: Post; userId: string }) {
     return (
         <Link to={`/posts/${post.id}`}>
             <Card className="min-h-45 transition-colors hover:bg-muted/50">
                 <CardHeader>
-                    <CardTitle className="line-clamp-1">{post.title}</CardTitle>
-                    <CardDescription>
+                    <CardTitle className="line-clamp-1">
+                        {post.title} {!post.published && <Badge variant="outline">Draft</Badge>}
+                        {post.authorId === userId && <Badge variant="secondary">You</Badge>}
+                    </CardTitle>
+                    <CardDescription className="flex items-center gap-1.5">
                         {new Date(post.createdAt).toLocaleDateString()}
-                        {post.published ? '' : ' · Draft'}
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
