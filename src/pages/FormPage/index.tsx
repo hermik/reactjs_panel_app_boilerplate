@@ -34,20 +34,22 @@ export default function FormPage() {
     const [errors, setErrors] = useState<FieldErrors>({})
     const [submitted, setSubmitted] = useState<FormValues | null>(null)
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        if (!formRef.current) return
-
-        const raw = Object.fromEntries(new FormData(formRef.current))
-        const payload = {
+    const buildPayload = (form: HTMLFormElement) => {
+        const raw = Object.fromEntries(new FormData(form))
+        return {
             ...raw,
             // unchecked checkboxes don't appear in FormData at all
             newsletter: raw.newsletter === 'on',
             notifications: raw.notifications === 'on',
             acceptTerms: raw.acceptTerms === 'on',
         }
+    }
 
-        const result = formSchema.safeParse(payload)
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        if (!formRef.current) return
+
+        const result = formSchema.safeParse(buildPayload(formRef.current))
         if (!result.success) {
             const fieldErrors = z.flattenError(result.error).fieldErrors
             setErrors(
@@ -63,6 +65,20 @@ export default function FormPage() {
         setErrors({})
         setSubmitted(result.data)
         toast.success('Form submitted!')
+    }
+
+    // Delegated on the <form> — blur bubbles (as focusout) so one handler
+    // covers every field. Re-validates the whole schema (cross-field checks
+    // like confirmPassword need the full object) but only updates the error
+    // for the field that was actually left, so untouched fields below don't
+    // light up red before the user ever reaches them.
+    const handleBlur = (event: React.FocusEvent<HTMLFormElement>) => {
+        const name = event.target.getAttribute('name')
+        if (!name || !formRef.current) return
+
+        const result = formSchema.safeParse(buildPayload(formRef.current))
+        const fieldErrors = result.success ? {} : z.flattenError(result.error).fieldErrors
+        setErrors((prev) => ({ ...prev, [name]: fieldErrors[name as keyof FormValues]?.[0] }))
     }
 
     const handleReset = () => {
@@ -82,7 +98,7 @@ export default function FormPage() {
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
-                    <form ref={formRef} onSubmit={handleSubmit} noValidate>
+                    <form ref={formRef} onSubmit={handleSubmit} onBlur={handleBlur} noValidate>
                         <FieldGroup>
                             <FieldSet>
                                 <FieldLegend>Personal info</FieldLegend>
