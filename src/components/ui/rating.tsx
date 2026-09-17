@@ -8,11 +8,12 @@ interface RatingProps {
     value?: number
     'aria-invalid'?: boolean
 }
+
 export const Rating = ({ id, name, value, 'aria-invalid': ariaInvalid }: RatingProps) => {
     const [selectedRating, setSelectedRating] = useState<number | null>(value ?? null)
     const [hoverValue, setHoverValue] = useState<number | null>(null)
     const ratingRef = useRef<HTMLInputElement | null>(null)
-    const displayedRating = hoverValue ?? selectedRating ?? value
+    const displayedRating = hoverValue ?? selectedRating ?? value ?? 0
 
     return (
         <div>
