@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { apiRequest } from '../../api/apiClient'
 
 export interface Profile {
+    id: string
     name: string
     email: string
 }

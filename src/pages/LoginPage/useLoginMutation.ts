@@ -38,9 +38,10 @@ export function useLoginMutation() {
             }),
         onSuccess: ({ accessToken, user }) => {
             setAccessToken(accessToken)
-            const { setName, setEmail, login } = useUserStore.getState().actions
+            const { setName, setEmail, setId, login } = useUserStore.getState().actions
             setName(user.name)
             setEmail(user.email)
+            setId(user.id)
             login()
             toast.success(`Welcome, ${user.name}! :)`, { position: 'top-center' })
         },

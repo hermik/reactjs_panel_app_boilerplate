@@ -50,17 +50,19 @@ export class AuthError extends Error {
 let refreshPromise: Promise<string> | null = null
 
 interface CurrentUser {
+    id: string
     name: string
     email: string
 }
 
 /**
- * Dociąga name/email po (odzyskanym) tokenie — F5 zeruje userStore (żyje tylko
+ * Dociąga id/name/email po (odzyskanym) tokenie — F5 zeruje userStore (żyje tylko
  * w JS), a /v1/auth/refresh zwraca tylko accessToken, więc bez tego dodatkowego
- * calla ProfilePage i inne miejsca czytające name/email z userStore świeciłyby
- * pustką aż do następnego pełnego logowania. Błąd tego calla nie ma wywracać
- * samego refreshu tokenu — sesja jest ważna niezależnie od tego, czy uda się
- * poznać imię/email, więc łykamy go i zostawiamy store z tym, co miał wcześniej.
+ * calla ProfilePage i inne miejsca czytające dane z userStore (w tym porównania
+ * ownership po authorId) świeciłyby pustką aż do następnego pełnego logowania.
+ * Błąd tego calla nie ma wywracać samego refreshu tokenu — sesja jest ważna
+ * niezależnie od tego, czy uda się poznać profil, więc łykamy go i zostawiamy
+ * store z tym, co miał wcześniej.
  */
 async function refreshUserProfile(accessToken: string): Promise<void> {
     try {
@@ -74,9 +76,10 @@ async function refreshUserProfile(accessToken: string): Promise<void> {
         }
 
         const user: CurrentUser = await response.json()
-        const { setName, setEmail } = useUserStore.getState().actions
+        const { setName, setEmail, setId } = useUserStore.getState().actions
         setName(user.name)
         setEmail(user.email)
+        setId(user.id)
     } catch {
         // Sesja i tak jest ważna (token już odświeżony) — brak profilu nie jest tu fatalny.
     }
