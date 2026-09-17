@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom'
 import { ErrorBoundary, getErrorMessage, type FallbackProps } from 'react-error-boundary'
 import { Button } from '@/components/ui/button'
 
-function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
+function ErrorFallback({ error }: FallbackProps) {
     return (
         <div className="flex flex-1 flex-col items-center justify-center gap-4 p-10 text-center">
             <div className="flex size-12 items-center justify-center rounded-full bg-destructive/10 text-destructive">
@@ -15,7 +15,10 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
                     {getErrorMessage(error) ?? 'An unexpected error occurred.'}
                 </p>
             </div>
-            <Button onClick={resetErrorBoundary}>Try again</Button>
+            {/* Full reload, not resetErrorBoundary: also recovers from stale
+                chunk URLs after a dev/deploy restart, which a plain re-render
+                of the same broken import can't fix. */}
+            <Button onClick={() => window.location.reload()}>Try again</Button>
         </div>
     )
 }
