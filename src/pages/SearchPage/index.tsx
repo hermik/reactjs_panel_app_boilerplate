@@ -25,7 +25,10 @@ export default function SearchPage() {
 
     return (
         <div className="p-4 w-full max-w-sm  gap-4 p-4">
-            <h1>Search Page</h1>
+            <h1 className="text-bold text-large text-center">
+                Search{' '}
+                <span className="text-transparent bg-clip-text bg-linear-to-tr from-pink-900 to-red-300">Page</span>
+            </h1>
             <SearchInput type="text" placeholder="Search..." value={query} onChange={handleChange} />
             {/* {isLoading && <p>Loading...</p>} */}
             {error && <p>Error: {error.message}</p>}
