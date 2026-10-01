@@ -70,9 +70,9 @@
 
     --radius: 0.375rem;
 
-    --sidebar: transparent;
+    --sidebar: oklch(0.985 0 0);
 
-    --sidebar-foreground: transparent;
+    --sidebar-foreground: oklch(0.145 0 0);
 
     --sidebar-primary: oklch(0.592 0.249 0.584);
 
