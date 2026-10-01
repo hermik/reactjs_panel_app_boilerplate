@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { useCommentsQuery, type Comment } from '@/hooks/useCommentsQuery'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 function SortableHeader<TData>({ column, label }: { column: Column<TData, unknown>; label: string }) {
     return (
@@ -53,6 +54,8 @@ const columns: ColumnDef<Comment>[] = [
 export default function TablePage() {
     const { data: comments, isLoading, error } = useCommentsQuery()
     const [sorting, setSorting] = useState<SortingState>([])
+    // 768px = breakpoint md w Tailwindzie
+    const isDesktop = useMediaQuery('(min-width: 768px)')
 
     const table = useReactTable({
         data: comments ?? [],
@@ -73,9 +76,9 @@ export default function TablePage() {
             {isLoading && <p className="text-sm text-muted-foreground">Loading comments...</p>}
             {error && <p className="text-sm text-destructive">Error loading comments: {error.message}</p>}
 
-            {comments && (
-                <>
-                    <div className="hidden rounded-xl border bg-card md:block">
+            {comments &&
+                (isDesktop ? (
+                    <div className="rounded-xl border bg-card">
                         <Table>
                             <TableHeader>
                                 {table.getHeaderGroups().map((headerGroup) => (
@@ -103,8 +106,8 @@ export default function TablePage() {
                             </TableBody>
                         </Table>
                     </div>
-
-                    <div className="flex flex-col gap-3 md:hidden">
+                ) : (
+                    <div className="flex flex-col gap-3">
                         {table.getRowModel().rows.map((row) => (
                             <Card key={row.id}>
                                 <CardContent className="flex flex-col gap-1">
@@ -115,8 +118,7 @@ export default function TablePage() {
                             </Card>
                         ))}
                     </div>
-                </>
-            )}
+                ))}
         </div>
     )
 }
