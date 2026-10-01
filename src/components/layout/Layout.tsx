@@ -82,7 +82,9 @@ export default function Layout() {
                         </SheetContent>
                     </Sheet>
                 </header>
-                <section className="content">
+                <section className="content relative overflow-hidden">
+                    <div className="absolute -top-100 -left-50 rounded-full size-280 bg-pink-600/5 blur-[200px]"></div>
+                    <div className="absolute -right-40 -bottom-110 rounded-full size-250 bg-red-300/20 blur-[160px]"></div>
                     <SidebarProvider open={isSidebarOpen} onOpenChange={setSidebarOpen}>
                         <AppSidebar />
                         <SidebarInset>

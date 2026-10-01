@@ -70,9 +70,9 @@
 
     --radius: 0.375rem;
 
-    --sidebar: oklch(0.985 0 0);
+    --sidebar: transparent;
 
-    --sidebar-foreground: oklch(0.145 0 0);
+    --sidebar-foreground: transparent;
 
     --sidebar-primary: oklch(0.592 0.249 0.584);
 
@@ -272,4 +272,23 @@ code {
     to {
         background-position: 55px 0;
     }
+}
+
+@utility pattern {
+    background-image:
+        repeating-linear-gradient(
+            45deg,
+            rgba(117, 117, 117, 0.2) 0px,
+            rgba(117, 117, 117, 0.2) 1px,
+            transparent 1px,
+            transparent 20px
+        ),
+        repeating-linear-gradient(
+            135deg,
+            rgba(117, 117, 117, 0.2) 0px,
+            rgba(117, 117, 117, 0.2) 1px,
+            transparent 1px,
+            transparent 20px
+        );
+    /* background-size: 60px 60px; */
 }

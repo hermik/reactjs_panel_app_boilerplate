@@ -35,24 +35,22 @@ const projects = [
 ]
 
 export default function AppSidebar({ ...props }) {
-    console.log(props)
     const sidebarOpen = useSidebarOpen()
     return (
-        <aside>
-            <Sidebar collapsible="icon" variant="inset">
-                <SidebarHeader>
-                    <NavLink
-                        to="/"
-                        className="flex items-center w-100 gap-2.5 font-semibold text-foreground transition-opacity hover:opacity-80"
-                    >
-                        <span className="flex size-9 items-center justify-center rounded-lg bg-linear-to-br from-primary to-primary/60 text-primary-foreground shadow-sm">
-                            <Sparkles className={`size-4`} />
-                        </span>
-                        <span className={`text-base tracking-tight ${sidebarOpen ? 'opacity-100' : 'opacity-0'}`}>
-                            My super app
-                        </span>
-                    </NavLink>
-                    {/* <SidebarMenu>
+        <Sidebar collapsible="icon" variant="inset" className="bg-transparent">
+            <SidebarHeader className="border-t p-1.5 border-l border-r border-gray-300 rounded-t-2xl">
+                <NavLink
+                    to="/"
+                    className="flex  items-center w-100 gap-2.5 font-semibold text-foreground transition-opacity hover:opacity-80"
+                >
+                    <span className="flex size-9 items-center justify-center rounded-lg bg-linear-to-br from-primary to-primary/60 text-primary-foreground shadow-sm">
+                        <Sparkles className={`size-4`} />
+                    </span>
+                    <span className={`text-base tracking-tight ${sidebarOpen ? 'opacity-100' : 'opacity-0'}`}>
+                        My super app
+                    </span>
+                </NavLink>
+                {/* <SidebarMenu>
                         <SidebarMenuItem>
                             <DropdownMenu>
                                 <DropdownMenuTrigger render={<SidebarMenuButton />}>
@@ -67,23 +65,25 @@ export default function AppSidebar({ ...props }) {
                             </DropdownMenu>
                         </SidebarMenuItem>
                     </SidebarMenu> */}
-                </SidebarHeader>
-                <SidebarContent>
-                    <SidebarGroup>
-                        <SidebarMenu>
-                            {projects.map((project) => (
-                                <SidebarMenuItem key={project.name}>
-                                    <SidebarMenuButton render={<a href={project.url} />}>
-                                        <project.icon />
-                                        <span>{project.name}</span>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
-                        </SidebarMenu>
-                    </SidebarGroup>
-                </SidebarContent>
-                <SidebarFooter />
-            </Sidebar>
-        </aside>
+            </SidebarHeader>
+            <SidebarContent className="pattern rounded-b-2xl border-b border-l border-r border-gray-300 relative overflow-hidden">
+                {/* <div className=""> */}
+                <div className="absolute bg-[#ffffff] dark:bg-red-300/10  size-190 -top-50 -left-130 blur-3xl"></div>
+                <SidebarGroup>
+                    <SidebarMenu>
+                        {projects.map((project) => (
+                            <SidebarMenuItem key={project.name}>
+                                <SidebarMenuButton render={<a href={project.url} />}>
+                                    <project.icon />
+                                    <span>{project.name}</span>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                        ))}
+                    </SidebarMenu>
+                </SidebarGroup>
+                {/* </div> */}
+            </SidebarContent>
+            <SidebarFooter />
+        </Sidebar>
     )
 }
